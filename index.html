@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yayasan Seramoe Berkah IPTEK</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        .section-padding {
+            padding: 4rem 1rem; /* Default padding for sections */
+        }
+        @media (min-width: 768px) {
+            .section-padding {
+                padding: 6rem 2rem; /* Larger padding for medium screens */
+            }
+        }
+        @media (min-width: 1024px) {
+            .section-padding {
+                padding: 8rem 4rem; /* Even larger padding for large screens */
+            }
+        }
+
+        /* Modal specific styles */
+        .modal-overlay {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            overflow-y: auto; /* Allow scrolling for long content */
+        }
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        .modal-close-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #333;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <header class="bg-white shadow-md py-4 fixed w-full z-50">
+        <nav class="container mx-auto flex justify-between items-center px-4 md:px-8">
+            <a href="#home" class="text-2xl font-bold text-blue-700 rounded-md p-2 hover:bg-blue-50 transition duration-300">SBI IPTEK</a>
+            <div class="hidden md:flex space-x-6">
+                <a href="#home" class="text-gray-600 hover:text-blue-700 font-semibold transition duration-300 rounded-md px-3 py-2 hover:bg-blue-50">Beranda</a>
+                <a href="#about" class="text-gray-600 hover:text-blue-700 font-semibold transition duration-300 rounded-md px-3 py-2 hover:bg-blue-50">Tentang Kami</a>
+                <a href="#programs" class="text-gray-600 hover:text-blue-700 font-semibold transition duration-300 rounded-md px-3 py-2 hover:bg-blue-50">Program & Layanan</a>
+                <a href="#achievements" class="text-gray-600 hover:text-blue-700 font-semibold transition duration-300 rounded-md px-3 py-2 hover:bg-blue-50">Pencapaian</a>
+                <a href="#contact" class="text-gray-600 hover:text-blue-700 font-semibold transition duration-300 rounded-md px-3 py-2 hover:bg-blue-50">Kontak</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-gray-600 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden fixed inset-0 bg-white bg-opacity-95 z-40 flex flex-col items-center justify-center space-y-6 text-xl">
+            <button id="close-mobile-menu" class="absolute top-4 right-4 text-gray-600 focus:outline-none">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <a href="#home" class="text-gray-700 hover:text-blue-700 font-semibold transition duration-300 rounded-md px-4 py-2 hover:bg-blue-50" onclick="toggleMobileMenu()">Beranda</a>
+            <a href="#about" class="text-gray-700 hover:text-blue-700 font-semibold transition duration-300 rounded-md px-4 py-2 hover:bg-blue-50" onclick="toggleMobileMenu()">Tentang Kami</a>
+            <a href="#programs" class="text-gray-700 hover:text-blue-700 font-semibold transition duration-300 rounded-md px-4 py-2 hover:bg-blue-50" onclick="toggleMobileMenu()">Program & Layanan</a>
+            <a href="#achievements" class="text-gray-700 hover:text-blue-700 font-semibold transition duration-300 rounded-md px-4 py-2 hover:bg-blue-50" onclick="toggleMobileMenu()">Pencapaian</a>
+            <a href="#contact" class="text-gray-700 hover:text-blue-700 font-semibold transition duration-300 rounded-md px-4 py-2 hover:bg-blue-50" onclick="toggleMobileMenu()">Kontak</a>
+        </div>
+    </header>
+
+    <main class="pt-16">
+        <section id="home" class="relative bg-gradient-to-r from-blue-600 to-blue-800 text-white section-padding flex items-center justify-center text-center min-h-[60vh] md:min-h-[70vh] lg:min-h-[80vh] overflow-hidden rounded-b-3xl">
+            <div class="absolute inset-0 opacity-20" style="background-image: url('https://placehold.co/1200x800/0000FF/FFFFFF?text=Pattern'); background-size: cover; background-position: center;"></div>
+            <div class="relative z-10 max-w-4xl mx-auto">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-4 drop-shadow-lg">
+                    Mengembangkan Kualitas SDM Aceh Melalui Dunia Industri & Usaha
+                </h1>
+                <p class="text-lg md:text-xl lg:text-2xl mb-8 opacity-90">
+                    Lembaga Nirlaba yang Menempatkan Diri Sebagai Bagian Dari Pembangunan Aceh dan Berupaya Menciptakan Keunggulan Bangsa dan Negara
+                </p>
+                <a href="#programs" class="inline-block bg-white text-blue-700 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-blue-100 hover:scale-105 transition duration-300 ease-in-out transform">
+                    Pelajari Program Kami
+                </a>
+            </div>
+        </section>
+
+        <section id="about" class="bg-white section-padding rounded-xl shadow-lg mx-4 md:mx-8 lg:mx-16 my-8">
+            <div class="container mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-blue-700 mb-8">Tentang Kami</h2>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div class="text-lg text-gray-700 leading-relaxed text-left">
+                        <p class="mb-4">Yayasan Seramoe Berkah IPTEK Aceh adalah lembaga nirlaba yang berfokus pada pendidikan, sosial, dan ekonomi kerakyatan. Kami berdedikasi untuk menciptakan keunggulan bangsa dan negara melalui pengembangan SDM di Aceh.</p>
+                        <p class="mb-4">Didirikan pada 13 Desember 2023 dengan Notaris Nomor 12 dan SK Menkumham RI Nomor AHU-0020898.AH.01.04.Tahun 2023. Kami berlokasi di Gampong Paya Guci, Kecamatan Tangse, Kabupaten Pidie, Aceh.</p>
+                        <p class="font-semibold text-blue-600">Visi Kami:</p>
+                        <p class="mb-4 italic">"Mengembangkan Kualitas Sumber Daya Manusia (SDM) Aceh Melalui Dunia Industri dan Dunia Usaha"</p>
+                        <p class="font-semibold text-blue-600">Misi Kami:</p>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li>Memperkuat dunia pendidikan baik formal maupun informal bidang vokasi di Aceh.</li>
+                            <li>Mengembangkan hubungan DUDI Aceh-Malaysia melalui kegiatan akademik dan non-akademik.</li>
+                            <li>Membangun kemitraan usaha Aceh-Malaysia dengan melibatkan perguruan tinggi.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <img src="https://placehold.co/600x400/ADD8E6/000000?text=Kantor+SBI" alt="Kantor Yayasan Seramoe Berkah IPTEK" class="rounded-2xl shadow-xl w-full h-auto object-cover">
+                    </div>
+                </div>
+
+                <h3 class="text-2xl md:text-3xl font-bold text-blue-700 mt-16 mb-8">Tim Kami</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="bg-blue-50 p-6 rounded-2xl shadow-md transform hover:scale-105 transition duration-300">
+                        <img src="https://placehold.co/150x150/87CEEB/FFFFFF?text=Syamsuddin" alt="Syamsuddin bin Abdullah" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover border-4 border-blue-300">
+                        <h4 class="text-xl font-semibold text-blue-800">Syamsuddin bin Abdullah, S.Pd., M.Pd.</h4>
+                        <p class="text-blue-600">Pembina Yayasan & CEO</p>
+                    </div>
+                    <div class="bg-blue-50 p-6 rounded-2xl shadow-md transform hover:scale-105 transition duration-300">
+                        <img src="https://placehold.co/150x150/87CEEB/FFFFFF?text=Hamdani" alt="Hamdani" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover border-4 border-blue-300">
+                        <h4 class="text-xl font-semibold text-blue-800">Hamdani</h4>
+                        <p class="text-blue-600">Konsultan</p>
+                    </div>
+                    <div class="bg-blue-50 p-6 rounded-2xl shadow-md transform hover:scale-105 transition duration-300">
+                        <img src="https://placehold.co/150x150/87CEEB/FFFFFF?text=Wahyudi" alt="Wahyudi" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover border-4 border-blue-300">
+                        <h4 class="text-xl font-semibold text-blue-800">Wahyudi</h4>
+                        <p class="text-blue-600">Direktur Operasional</p>
+                    </div>
+                    <div class="bg-blue-50 p-6 rounded-2xl shadow-md transform hover:scale-105 transition duration-300">
+                        <img src="https://placehold.co/150x150/87CEEB/FFFFFF?text=Faridzoel" alt="Faridzoel Muhammad" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover border-4 border-blue-300">
+                        <h4 class="text-xl font-semibold text-blue-800">Faridzoel Muhammad</h4>
+                        <p class="text-blue-600">Sekretaris</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="programs" class="bg-blue-50 section-padding text-center rounded-xl shadow-lg mx-4 md:mx-8 lg:mx-16 my-8">
+            <div class="container mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold text-blue-700 mb-12">Program & Layanan Kami</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300 flex flex-col justify-between">
+                        <div>
+                            <div class="text-5xl mb-4 text-blue-500">🎓</div>
+                            <h3 class="text-xl font-semibold text-blue-800 mb-3">Pendidikan & Pelatihan</h3>
+                            <p class="text-gray-600 text-sm mb-4">Memfasilitasi peserta program dan mitra untuk mendapatkan berbagai jenis pendidikan dan pelatihan.</p>
+                        </div>
+                        <button class="program-detail-button mt-4 bg-blue-600 text-white py-2 px-4 rounded-full hover:bg-blue-700 transition duration-300 shadow-md" data-program="pendidikan">Pelajari Lebih Lanjut</button>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300 flex flex-col justify-between">
+                        <div>
+                            <div class="text-5xl mb-4 text-blue-500">💼</div>
+                            <h3 class="text-xl font-semibold text-blue-800 mb-3">Magang & Penempatan</h3>
+                            <p class="text-gray-600 text-sm mb-4">Memberikan kesempatan Magang atau Praktik Kerja mengenai kegiatan riil di industri.</p>
+                        </div>
+                        <button class="program-detail-button mt-4 bg-blue-600 text-white py-2 px-4 rounded-full hover:bg-blue-700 transition duration-300 shadow-md" data-program="magang">Pelajari Lebih Lanjut</button>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300 flex flex-col justify-between">
+                        <div>
+                            <div class="text-5xl mb-4 text-blue-500">💰</div>
+                            <h3 class="text-xl font-semibold text-blue-800 mb-3">Pemberdayaan UMKM & Kewirausahaan</h3>
+                            <p class="text-gray-600 text-sm mb-4">Membuka akses UMKM terhadap sumber pembiayaan, meningkatkan kapasitas SDM dan teknologi.</p>
+                        </div>
+                        <button class="program-detail-button mt-4 bg-blue-600 text-white py-2 px-4 rounded-full hover:bg-blue-700 transition duration-300 shadow-md" data-program="umkm">Pelajari Lebih Lanjut</button>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300 flex flex-col justify-between">
+                        <div>
+                            <div class="text-5xl mb-4 text-blue-500">🤝</div>
+                            <h3 class="text-xl font-semibold text-blue-800 mb-3">Kerja Sama Kemitraan</h3>
+                            <p class="text-gray-600 text-sm mb-4">Membangun kapasitas organisasi untuk bekerja secara transnasional dan lintas sektor.</p>
+                        </div>
+                        <button class="program-detail-button mt-4 bg-blue-600 text-white py-2 px-4 rounded-full hover:bg-blue-700 transition duration-300 shadow-md" data-program="kemitraan">Pelajari Lebih Lanjut</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="achievements" class="bg-white section-padding rounded-xl shadow-lg mx-4 md:mx-8 lg:mx-16 my-8">
+            <div class="container mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-blue-700 mb-12">Pencapaian & Prestasi</h2>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <img src="https://placehold.co/600x400/87CEEB/000000?text=Kunjungan+Industri+Malaysia" alt="Kunjungan Industri ke Malaysia" class="rounded-2xl shadow-xl w-full h-auto object-cover mb-8">
+                    </div>
+                    <div class="text-lg text-gray-700 leading-relaxed text-left">
+                        <h3 class="text-2xl font-semibold text-blue-800 mb-4">Kolaborasi Internasional untuk SDM Unggul</h3>
+                        <p class="mb-4">Yayasan Seramoe Berkah IPTEK telah melakukan kunjungan industri secara langsung ke beberapa perusahaan di Malaysia yang bergerak di bidang elektrik, perdagangan, dan ke universitas-universitas ternama di negara tersebut. Respons yang sangat baik telah diterima, dan kami telah menjalin berbagai kerja sama antar lembaga.</p>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li>**Kunjungan Industri ke Malaysia:** Pada bulan Mei 2024, kami mengunjungi dunia usaha dan industri (DUDI) di Malaysia untuk menjalin hubungan kerja sama.</li>
+                            <li>**Kemitraan dengan Starlite Electrical Industries Sdn. Bhd. Malaysia:** Kami bangga bermitra dengan perusahaan elektrik terbesar di Negeri Sembilan, Malaysia. Starlite tertarik bekerja sama dengan dunia pendidikan vokasi di Aceh untuk pelatihan dan pengembangan SDM.</li>
+                            <li>**Kunjungan ke Universitas Malaysia:** Kami juga melawat ke sejumlah universitas untuk melakukan Memorandum of Understanding (MoU) guna memperkuat kerja sama akademik.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="how-we-work" class="bg-blue-50 section-padding text-center rounded-xl shadow-lg mx-4 md:mx-8 lg:mx-16 my-8">
+            <div class="container mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold text-blue-700 mb-12">Bagaimana Kami Bekerja?</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300">
+                        <div class="text-6xl mb-4 text-blue-500">💡</div>
+                        <h3 class="text-xl font-semibold text-blue-800 mb-3">Evaluasi & Peningkatan</h3>
+                        <p class="text-gray-600">Kami mengadakan forum diskusi bersama seluruh anggota untuk mengevaluasi kebijakan yang telah atau sedang berjalan dan memetakan hal-hal yang perlu ditingkatkan.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300">
+                        <div class="text-6xl mb-4 text-blue-500">🌍</div>
+                        <h3 class="text-xl font-semibold text-blue-800 mb-3">Kolaborasi Mitra</h3>
+                        <p class="text-gray-600">Kami bekerja sama dengan mitra lokal dan internasional yang berperan penting dalam membantu kami memahami penerima manfaat dan mengimplementasikan kegiatan.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300">
+                        <div class="text-6xl mb-4 text-blue-500">🤝</div>
+                        <h3 class="text-xl font-semibold text-blue-800 mb-3">Membangun Kepercayaan & Kolaborasi</h3>
+                        <p class="text-gray-600">Kami membangun tim yang erat dengan mengadakan aktivitas team building secara berkala, sarana bagi mitra dan klien untuk membangun kepercayaan dan ikatan.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="bg-white section-padding rounded-xl shadow-lg mx-4 md:mx-8 lg:mx-16 my-8">
+            <div class="container mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-blue-700 mb-12">Hubungi Kami</h2>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                    <div class="text-left text-gray-700 space-y-6">
+                        <p class="text-lg">Kami siap melayani dan membantu dengan senang hati atas pertanyaan, permintaan serta pengaduan Anda terkait program dan layanan kami.</p>
+                        <div class="flex items-center space-x-3">
+                            <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg>
+                            <p>Yayasan Seuramoe Berkah IPTEK, Jalan Beureunuen – Tangse No. 116 Kode Pos: 24166</p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.774a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path></svg>
+                            <p>+62-822-7790-8874, +62-813-6057-2104</p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path></svg>
+                            <p>seuramoe.berkah.iptek@gmail.com</p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0113 3.414L16.586 7A2 2 0 0118 8.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"></path></svg>
+                            <p><a href="http://www.seramoeberkah.com" target="_blank" class="text-blue-600 hover:underline">www.seramoeberkah.com</a></p>
+                        </div>
+                    </div>
+                    <div class="bg-blue-50 p-8 rounded-2xl shadow-lg">
+                        <h3 class="text-2xl font-semibold text-blue-800 mb-6">Kirim Pesan kepada Kami</h3>
+                        <form class="space-y-4">
+                            <div>
+                                <label for="name" class="block text-left text-gray-700 text-sm font-bold mb-2">Nama Lengkap:</label>
+                                <input type="text" id="name" name="name" class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Nama Anda" required>
+                            </div>
+                            <div>
+                                <label for="email" class="block text-left text-gray-700 text-sm font-bold mb-2">Email:</label>
+                                <input type="email" id="email" name="email" class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="email@contoh.com" required>
+                            </div>
+                            <div>
+                                <label for="topic" class="block text-left text-gray-700 text-sm font-bold mb-2">Topik:</label>
+                                <select id="topic" name="topic" class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="">Pilih Topik</option>
+                                    <option value="pertanyaan_program">Pertanyaan Program</option>
+                                    <option value="kemitraan_dudika">Kemitraan DUDIKA</option>
+                                    <option value="magang">Magang</option>
+                                    <option value="lain_lain">Lain-lain</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="message" class="block text-left text-gray-700 text-sm font-bold mb-2">Pesan Anda:</label>
+                                <textarea id="message" name="message" rows="5" class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Tulis pesan Anda di sini..." required></textarea>
+                            </div>
+                            <button type="submit" class="bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 px-6 rounded-full transition duration-300 shadow-lg hover:scale-105">Kirim Pesan</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8 text-center rounded-t-3xl">
+        <div class="container mx-auto px-4">
+            <p class="mb-4">&copy; 2023-2024 Yayasan Seramoe Berkah IPTEK. Hak Cipta Dilindungi.</p>
+            <div class="flex justify-center space-x-6">
+                <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.776-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd"></path></svg>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.792.058.971.045 1.75.201 2.39.443.639.242 1.162.593 1.608 1.039.445.445.796.968 1.039 1.607.242.64.398 1.419.443 2.39.045 1.008.058 1.358.058 3.792s-.013 2.784-.058 3.792c-.045.971-.201 1.75-.443 2.39-.242.639-.593 1.162-1.039 1.608-.445.445-.968.796-1.607 1.039-.64.242-1.419.398-2.39.443-1.008.045-1.358.058-3.792.058s-2.784-.013-3.792-.058c-.971-.045-1.75-.201-2.39-.443-.639-.242-1.162-.593-1.608-1.039-.445-.445-.796-.968-1.039-1.607-.242-.64-.398-1.419-.443-2.39-.045-1.008-.058-1.358-.058-3.792s.013-2.784.058-3.792c.045-.971.201-1.75.443-2.39.242-.639.593-1.162 1.039-1.608.445-.445.968-.796 1.607-1.039.64-.242 1.419-.398 2.39-.443C9.538 2.013 9.888 2 12.315 2zm0 2.166c-2.846 0-3.233.01-4.325.06-.751.035-1.233.175-1.48.276-.239.099-.48.22-.665.406-.185.184-.306.426-.405.664-.101.247-.24.729-.275 1.48-.05 1.092-.06 1.479-.06 4.326 0 2.846.01 3.233.06 4.325.035.751.175 1.233.276 1.48.099.239.22.48.406.665.184.185.426.306.664.405.247.101.729.24 1.48.275 1.092.05 1.479.06 4.326.06s3.233-.01 4.325-.06c.751-.035 1.233-.175 1.48-.276.239-.099.48-.22.665-.406.185-.184.306-.426.405-.664.101-.247.24-.729.275-1.48.05-1.092.06-1.479.06-4.326s-.01-3.233-.06-4.325c-.035-.751-.175-1.233-.276-1.48-.099-.239-.22-.48-.406-.665-.184-.185-.426-.306-.664-.405-.247-.101-.729-.24-.275-1.48-.05-1.092-.06-1.479-.06-4.326zM8.895 12.01c0 1.632 1.321 2.953 2.953 2.953s2.953-1.321 2.953-2.953-1.321-2.953-2.953-2.953-2.953 1.321-2.953 2.953zm2.953-1.802a1.802 1.802 0 100 3.604 1.802 1.802 0 000-3.604z" clip-rule="evenodd"></path></svg>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M.057 11.354a9.993 9.993 0 009.992 9.992h.001c.001 0 .001 0 .002 0 1.264 0 2.47-.282 3.565-.806l5.056 1.428a.75.75 0 00.91-.91l-1.428-5.056a9.993 9.993 0 00.807-3.565c0-.001 0-.001 0-.002V12A9.993 9.993 0 00.057 11.354zm1.543 0a8.493 8.493 0 018.493-8.493h.001c.001 0 .001 0 .002 0 1.07 0 2.083.255 2.986.74l.004-.002.002.002a.75.75 0 00.722-.164l2.846-2.846a.75.75 0 00-.53-1.288.75.75 0 00-.53.22L14.7 6.03a.75.75 0 00-.164.722l.002.004.002.004a8.493 8.493 0 01.74 2.986c0 .001 0 .001 0 .002V12a8.493 8.493 0 01-8.493 8.493h-.001c-.001 0-.001 0-.002 0-1.07 0-2.083-.255-2.986-.74l-.004.002-.002-.002a.75.75 0 00-.722.164l-2.846 2.846a.75.75 0 00.53 1.288.75.75 0 00.53-.22L9.3 17.97a.75.75 0 00.164-.722l-.002-.004-.002-.004a8.493 8.493 0 01-.74-2.986c0-.001 0-.001 0-.002V12A8.493 8.493 0 011.6 11.354z" clip-rule="evenodd"></path></svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <div id="programModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close-button" id="closeModal">&times;</button>
+            <h3 id="modalTitle" class="text-2xl font-bold text-blue-700 mb-4"></h3>
+            <div id="modalContent" class="text-gray-700 leading-relaxed"></div>
+        </div>
+    </div>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const closeMobileMenuButton = document.getElementById('close-mobile-menu');
+
+        function toggleMobileMenu() {
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        mobileMenuButton.addEventListener('click', toggleMobileMenu);
+        closeMobileMenuButton.addEventListener('click', toggleMobileMenu);
+
+        // Program Detail Modal Logic
+        const programDetails = {
+            pendidikan: {
+                title: "Pendidikan & Pelatihan",
+                content: `
+                    <p class="mb-4">Kami memfasilitasi peserta program dan mitra untuk mendapatkan berbagai jenis pendidikan dan pelatihan baik dalam maupun luar negeri dengan memperoleh keahlian di bidang yang diikuti dengan sertifikasi nasional dan internasional. Terbuka peluang kerja sama antar institusi pendidikan, perguruan tinggi, maupun hospitality.</p>
+                    <h4 class="font-semibold text-blue-600 mt-4 mb-2">Manfaat untuk DUDIKA:</h4>
+                    <ul class="list-disc list-inside mb-4">
+                        <li>Peningkatan kompetensi SDM sesuai kebutuhan industri.</li>
+                        <li>Peluang kerja sama antar institusi pendidikan, perguruan tinggi, maupun hospitality.</li>
+                    </ul>
+                    <h4 class="font-semibold text-blue-600 mt-4 mb-2">Kegiatan Saat Ini:</h4>
+                    <p>Pelatihan Komite Pembelajaran (PKP) pada program SMK untuk menyiapkan komite pembelajaran pada setiap satuan pendidikan pelaksana program SMK Pusat Keunggulan, agar mampu dan siap melakukan perubahan penyelenggaraan pembelajaran di sekolah.</p>
+                `
+            },
+            magang: {
+                title: "Magang & Penempatan",
+                content: `
+                    <p class="mb-4">Kami memberikan kesempatan Magang atau Praktik Kerja kepada peserta program baik kependidikan dan Non-Kependidikan mengenai kegiatan riil di industri sehingga memiliki kompetensi yang memadai dalam melaksanakan tugas sesuai dengan bidang keahliannya.</p>
+                    <p class="mb-4">Praktik kerja diarahkan pada aspek keilmuan dan pembelajaran secara teoritik dan aplikatif yang kritis, inovatif, adaptif, dan komunikatif sesuai dengan karakter dan budaya peserta didik di era global.</p>
+                    <h4 class="font-semibold text-blue-600 mt-4 mb-2">Manfaat untuk DUDIKA:</h4>
+                    <ul class="list-disc list-inside mb-4">
+                        <li>Mendapatkan calon tenaga kerja dengan kompetensi memadai.</li>
+                        <li>Peserta magang diarahkan pada aspek keilmuan dan pembelajaran secara teoritik dan aplikatif yang kritis, inovatif, adaptif, dan komunikatif.</li>
+                    </ul>
+                    <h4 class="font-semibold text-blue-600 mt-4 mb-2">Bagaimana Kami Melakukannya:</h4>
+                    <p>Kami menghubungkan siswa, mahasiswa, dan profesional dengan perusahaan yang relevan untuk pengalaman kerja langsung, memastikan keselarasan antara kebutuhan industri dan pengembangan SDM.</p>
+                `
+            },
+            umkm: {
+                title: "Pemberdayaan UMKM & Kewirausahaan",
+                content: `
+                    <p class="mb-4">Program pemberdayaan UMKM bertujuan untuk membuka akses UMKM terhadap sumber pembiayaan, meningkatkan kapasitas SDM dan kemampuan teknologi, mengembangkan usaha, dan memperluas jaringan pemasaran, baik pasar lokal, regional dan pasar internasional.</p>
+                    <h4 class="font-semibold text-blue-600 mt-4 mb-2">Manfaat untuk DUDIKA:</h4>
+                    <ul class="list-disc list-inside mb-4">
+                        <li>Menciptakan ekosistem bisnis yang lebih kuat dan inovatif.</li>
+                        <li>Peluang kolaborasi dengan UMKM lokal untuk pengembangan produk dan pasar.</li>
+                    </ul>
+                    <h4 class="font-semibold text-blue-600 mt-4 mb-2">Kegiatan Saat Ini:</h4>
+                    <p>Mayoritas program pemberdayaan UMKM yang dilaksanakan saat ini berfokus pada pembiayaan UMKM, terutama dari perbankan dan lembaga keuangan, serta pendampingan UMKM di Kabupaten Aceh Besar, Banda Aceh, dan Pidie. Sebagian besar program ditargetkan untuk pelaku usaha mikro dan ultra-mikro baik sektor industri rumah tangga maupun perdagangan.</p>
+                `
+            },
+            kemitraan: {
+                title: "Kerja Sama Kemitraan",
+                content: `
+                    <p class="mb-4">Kami membangun kapasitas organisasi untuk bekerja secara transnasional dan lintas sektor. Ini termasuk mengatasi kebutuhan dan prioritas bersama di bidang pendidikan, pelatihan, ekonomi, UMKM, dan penempatan kerja di DUDI.</p>
+                    <h4 class="font-semibold text-blue-600 mt-4 mb-2">Manfaat untuk DUDIKA:</h4>
+                    <ul class="list-disc list-inside mb-4">
+                        <li>Membangun jaringan luas dengan pelaku industri dan pendidikan di Aceh dan Malaysia.</li>
+                        <li>Membuka peluang Memorandum of Understanding (MoU) dan kolaborasi strategis untuk proyek-proyek inovatif.</li>
+                    </ul>
+                    <h4 class="font-semibold text-blue-600 mt-4 mb-2">Bagaimana Kami Membangun Kemitraan:</h4>
+                    <p>Kami secara proaktif menjalin hubungan dengan berbagai pihak, baik lokal maupun internasional, untuk mengidentifikasi sinergi dan menciptakan program-program yang saling menguntungkan dan berkelanjutan.</p>
+                `
+            }
+        };
+
+        const programDetailButtons = document.querySelectorAll('.program-detail-button');
+        const programModal = document.getElementById('programModal');
+        const closeModalButton = document.getElementById('closeModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalContent = document.getElementById('modalContent');
+
+        programDetailButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const programKey = this.dataset.program;
+                const details = programDetails[programKey];
+                if (details) {
+                    modalTitle.textContent = details.title;
+                    modalContent.innerHTML = details.content;
+                    programModal.style.display = 'flex'; // Show modal
+                }
+            });
+        });
+
+        closeModalButton.addEventListener('click', function() {
+            programModal.style.display = 'none'; // Hide modal
+        });
+
+        // Close modal when clicking outside the content
+        programModal.addEventListener('click', function(event) {
+            if (event.target === programModal) {
+                programModal.style.display = 'none';
+            }
+        });
+
+        // Basic form submission handler (for demonstration, no actual backend)
+        document.querySelector('#contact form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // In a real application, you would send this data to a server
+            const formMessage = document.createElement('p');
+            formMessage.textContent = 'Terima kasih! Pesan Anda telah terkirim.';
+            formMessage.className = 'text-green-600 mt-4 font-semibold';
+            this.appendChild(formMessage);
+            this.reset(); // Clear the form
+            setTimeout(() => formMessage.remove(), 5000); // Remove message after 5 seconds
+        });
+
+    </script>
+</body>
+</html>
